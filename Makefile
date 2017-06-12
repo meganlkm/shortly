@@ -13,3 +13,10 @@ setup:
 	pip install --upgrade pip virtualenv
 	pip install -r requirements-test.txt
 	pip install --editable .
+
+clean:
+	rm -rf build/
+	rm -rf artifact/
+
+reset:
+	python cleanup.py
