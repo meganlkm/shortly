@@ -1,4 +1,4 @@
-from boto3.dynamodb.conditions import Attr, Key
+from boto3.dynamodb.conditions import Key
 from botocore.exceptions import ClientError
 
 from shortly.settings import TABLE_NAME
@@ -6,8 +6,7 @@ from shortly.utils import get_client
 
 
 def get_table():
-    ddb = get_client('dynamodb')
-    return ddb.Table(TABLE_NAME)
+    return get_client('dynamodb').Table(TABLE_NAME)
 
 
 def get(value, key='id'):

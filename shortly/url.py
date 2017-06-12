@@ -11,13 +11,6 @@ def _new_id():
     return tmpid
 
 
-def lookup(url):
-    """input: url
-        - find id for url
-        - return id or False
-    """
-
-
 def retrieve(id):
     """input: id
         - find url for id

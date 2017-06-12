@@ -30,6 +30,3 @@ class UrlTest(TestCase):
         client_mock.return_value.Table = MagicMock()
         client_mock.return_value.Table.return_value.query = MagicMock(return_value={'Items': []})
         self.assertEqual(url.retrieve('foo'), '404')
-
-    def test_lookup(self):
-        pass
