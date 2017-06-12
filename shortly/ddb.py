@@ -1,3 +1,4 @@
+from boto3.dynamodb.conditions import Attr, Key
 from botocore.exceptions import ClientError
 
 from shortly.utils import get_client
@@ -8,20 +9,19 @@ def get_table():
     return ddb.Table('shortly-urls')
 
 
-def lookup(url):
-    """input: url
-        - find id for url
-        - return id or False
-    """
-
-
-def get(id):
+def get(value, key='id'):
     """input: id
         - find url for id
         - return url or False
     """
     table = get_table()
-    print(table.item_count)
+    response = table.query(
+        KeyConditionExpression=Key(key).eq(value)
+    )
+    try:
+        return response['Items'][0]
+    except IndexError:
+        return False
 
 
 def put(id, url):
