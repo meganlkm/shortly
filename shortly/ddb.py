@@ -1,12 +1,13 @@
 from boto3.dynamodb.conditions import Attr, Key
 from botocore.exceptions import ClientError
 
+from shortly.settings import TABLE_NAME
 from shortly.utils import get_client
 
 
 def get_table():
-    ddb = get_client('dynamodb', 'resource')
-    return ddb.Table('shortly-urls')
+    ddb = get_client('dynamodb')
+    return ddb.Table(TABLE_NAME)
 
 
 def get(value, key='id'):
@@ -27,13 +28,9 @@ def get(value, key='id'):
 def put(id, url):
     """Create a new url object."""
     table = get_table()
+    item = {'id': id, 'url': url}
     try:
-        table.put_item(
-            Item={
-                'id': id,
-                'url': url
-            }
-        )
-        return True
+        table.put_item(Item=item)
+        return item
     except ClientError:
         raise

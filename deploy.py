@@ -1,11 +1,13 @@
 import boto3
 
+from shortly.settings import TABLE_NAME
+
 
 ddb = boto3.resource('dynamodb')
 
 # create the table
 table = ddb.create_table(
-    TableName='shortly-urls',
+    TableName=TABLE_NAME,
     KeySchema=[
         {
             'AttributeName': 'id',
@@ -34,7 +36,7 @@ table = ddb.create_table(
 )
 
 # wait until the table exists
-table.meta.client.get_waiter('table_exists').wait(TableName='shortly-urls')
+table.meta.client.get_waiter('table_exists').wait(TableName=TABLE_NAME)
 
 # Print out some data about the table.
 print(table.item_count)

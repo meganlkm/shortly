@@ -12,14 +12,16 @@ class DdbTest(TestCase):
         client_mock.return_value.Table = MagicMock()
         client_mock.return_value.Table.return_value.put_item = MagicMock()
 
-        self.assertTrue(ddb.put('foo', 'bar'))
-        client_mock.assert_called_once_with('dynamodb', 'resource')
+        self.assertDictEqual(
+            ddb.put('foo', 'bar'),
+            {'id': 'foo', 'url': 'bar'}
+        )
+        client_mock.assert_called_once_with('dynamodb')
         client_mock.return_value.Table.assert_called_once_with('shortly-urls')
         client_mock.return_value.Table.return_value.put_item.assert_called_once_with(Item={'id': 'foo', 'url': 'bar'})
 
     @patch('shortly.ddb.get_client')
-    @patch('shortly.ddb.Key')
-    def test_get(self, key_mock, client_mock):
+    def test_get(self, client_mock):
         client_mock.return_value.Table = MagicMock()
         client_mock.return_value.Table.return_value.query = MagicMock()
 
@@ -27,8 +29,7 @@ class DdbTest(TestCase):
         client_mock.return_value.Table.return_value.query.assert_called_once()
 
     @patch('shortly.ddb.get_client')
-    @patch('shortly.ddb.Key')
-    def test_get_not_found(self, key_mock, client_mock):
+    def test_get_not_found(self, client_mock):
         client_mock.return_value.Table = MagicMock()
         client_mock.return_value.Table.return_value.query = MagicMock(return_value={'Items': []})
         self.assertFalse(ddb.get('foo'))
