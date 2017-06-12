@@ -1,5 +1,8 @@
 default: test
 
+build:
+	sh build.sh
+
 deploy:
 	python deploy.py
 

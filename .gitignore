@@ -4,6 +4,7 @@ __pycache__/
 *.py[cod]
 *.so
 .Python
+artifact/
 build/
 dist/
 eggs/
